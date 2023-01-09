@@ -3,7 +3,7 @@ document.getElementById('generate-btn').addEventListener('click', function(){
     let randomPin = Math.random()*10000;
     let roundedRandomPin = Math.ceil(randomPin);
     if(randomPin < 1000){
-        return 1
+        randomPin = 6969;
     }
     document.getElementById('pin-input').value = roundedRandomPin;
     return showPinString;
@@ -39,17 +39,31 @@ document.getElementById('calc-body').addEventListener('click', function(event){
     return pin;
 })
 
+
+let tries = 3;
+
 document.getElementById('submit-btn').addEventListener('click', function(){
     let submitPinNum = document.getElementById('calc-input').value;
     let realPin = document.getElementById('pin-input').value;
     let empty = "";
     if (realPin == empty){
         console.log('false')
-    }else if(submitPinNum == realPin){
+    }
+    else if(submitPinNum == realPin){
+        document.getElementById('pin-input').value = empty;
+        document.getElementById('calc-input').value = empty;
         document.getElementById('notify-error').style.display = 'none';
         document.getElementById('notify-success').style.display = 'block';
     }else{
-        document.getElementById('notify-error').style.display = 'block';
-        document.getElementById('notify-success').style.display = 'none';
+        tries -= 1;
+        if (tries > 0) {
+            document.getElementById("try-num").innerText = tries;
+            document.getElementById('notify-error').style.display = 'block';
+            document.getElementById('notify-success').style.display = 'none';
+        } else {
+            document.getElementById("submit-btn").disabled = true;
+            document.getElementById('submit-btn').style.backgroundColor= "#8294f7";
+            document.getElementById("try-num").innerText = "0";
+        }
         }
 })
